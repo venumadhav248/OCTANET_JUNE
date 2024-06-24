@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('img.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color:rgba(255, 255, 255, 0.4);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        button {
+            background-color: rgba(92, 184, 92, 0.9);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgba(76, 174, 76, 0.9);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        li.complete {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <form id="task-form">
+            <input type="text" id="task-input" placeholder="Enter new task">
+            <input type="date" id="due-date">
+            <select id="priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button type="submit">Add Task</button>
+        </form>
+        <ul id="task-list"></ul>
+    </div>
+    <script>
+        document.getElementById('task-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const taskInput = document.getElementById('task-input');
+            const dueDateInput = document.getElementById('due-date');
+            const priorityInput = document.getElementById('priority');
+            
+            if (taskInput.value === '') {
+                alert('Please enter a task');
+                return;
+            }
+        
+            const taskList = document.getElementById('task-list');
+            const newTask = document.createElement('li');
+        
+            const taskText = document.createElement('span');
+            taskText.textContent = `${taskInput.value} (Due: ${dueDateInput.value}, Priority: ${priorityInput.value})`;
+            
+            const completeCheckbox = document.createElement('input');
+            completeCheckbox.type = 'checkbox';
+            completeCheckbox.addEventListener('change', function() {
+                newTask.classList.toggle('complete');
+            });
+        
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', function() {
+                taskList.removeChild(newTask);
+            });
+        
+            newTask.appendChild(completeCheckbox);
+            newTask.appendChild(taskText);
+            newTask.appendChild(deleteButton);
+        
+            taskList.appendChild(newTask);
+        
+            taskInput.value = '';
+            dueDateInput.value = '';
+            priorityInput.value = 'low';
+        });
+    </script>
+</body>
+</html>
